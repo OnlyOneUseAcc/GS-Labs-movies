@@ -1,15 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 import API.api_utils as ut
-import json
-from typing import Set
-import asyncio
 from asgiref.sync import sync_to_async
-
-
-class WatchHistory(BaseModel):
-    films: Set[str] = None
 
 
 app = FastAPI()
@@ -73,8 +65,8 @@ async def top_films(user_id: int):
 
 
 @app.get('/watch_history')
-async def history(user_id):
+async def history(user_id: int):
     user_history = {'content': {}}
-    for i, name in enumerate(await sync_to_async(ut.get_history_by_user)(user_id)):
+    for i, name in enumerate(await sync_to_async(ut.get_history_by_user)(int(user_id))):
         user_history['content'][i] = name
     return user_history
