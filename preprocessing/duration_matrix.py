@@ -51,7 +51,7 @@ class DurationSparseMatrix:
         matrix_part = [self.__tables[ax_type][user] for user in ids]
         view_matrix = self.load_matrix()
         lines = view_matrix[matrix_part] if ax_type == 'users' else view_matrix[:, matrix_part]
-        return lines.toarray()
+        return pd.DataFrame(data=lines.toarray(), columns=self.__tables['contents'].keys(), index=ids)
 
     def get_shape(self):
         len_users = len(self.__tables['users'])
