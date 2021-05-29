@@ -1,3 +1,5 @@
 .idea
 recommendation_system
 data
+/data/postprocessing/
+/data/raw/
