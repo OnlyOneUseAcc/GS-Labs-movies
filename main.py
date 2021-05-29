@@ -67,5 +67,5 @@ async def history(user_id):
     user_history = {'content': {}}
     for i, name in enumerate(ut.get_history_by_user(user_id)):
         user_history['content'][i] = name
-
+        print(name)
     return user_history
