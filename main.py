@@ -66,6 +66,6 @@ async def top_films(user_id: int):
 async def history(user_id):
     user_history = {'content': {}}
     for i, name in enumerate(ut.get_history_by_user(user_id)):
-        user_history['content'][i] = name
+        user_history['content'][f'{i}'] = name
         print(name)
     return user_history
