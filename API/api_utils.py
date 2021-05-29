@@ -1,6 +1,6 @@
 import pandas as pd
 
-DATA = '../data/'
+DATA = 'data/'
 POSTPROCESSING = 'postprocessing/'
 
 
