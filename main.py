@@ -4,6 +4,8 @@ from pydantic import BaseModel
 import API.api_utils as ut
 import json
 from typing import Set
+import asyncio
+from asgiref.sync import sync_to_async
 
 
 class WatchHistory(BaseModel):
@@ -70,9 +72,9 @@ async def top_films(user_id: int):
     }
 
 
-@app.get('/watch_history', response_model=WatchHistory)
+@app.get('/watch_history')
 async def history(user_id):
-    user_history = ut.get_history_by_user(user_id)
-    model = WatchHistory()
-    model.films = list(user_history)
-    return model
+    user_history = {'content': {}}
+    for i, name in enumerate(await sync_to_async(ut.get_history_by_user)(user_id)):
+        user_history['content'][i] = name
+    return user_history
