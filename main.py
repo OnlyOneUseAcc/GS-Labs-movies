@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import API.api_utils as ut
 from asgiref.sync import sync_to_async
 
-
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -22,7 +21,26 @@ async def predict(user_id: int):
                               2: {'name': 'film2',
                                   'genre': 'genre1, genre2'},
                               3: {'name': 'film3',
-                                  'genre': 'genre1, genre2'}},
+                                  'genre': 'genre1, genre2'},
+                              4: {'name': 'film1',
+                                  'genre': 'genre1, genre2'},
+                              5: {'name': 'film2',
+                                  'genre': 'genre1, genre2'},
+                              6: {'name': 'film3',
+                                  'genre': 'genre1, genre2'},
+                              7: {'name': 'film1',
+                                  'genre': 'genre1, genre2'},
+                              8: {'name': 'film2',
+                                  'genre': 'genre1, genre2'},
+                              9: {'name': 'film3',
+                                  'genre': 'genre1, genre2'},
+                              10: {'name': 'film1',
+                                   'genre': 'genre1, genre2'},
+                              11: {'name': 'film2',
+                                   'genre': 'genre1, genre2'},
+                              12: {'name': 'film3',
+                                   'genre': 'genre1, genre2'}
+                              },
                     'serials': {1: {'name': 'serial1',
                                     'genre': 'genre1, genre2'},
                                 2: {'name': 'serial2',
