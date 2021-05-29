@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import API.api_utils as ut
+import json
+
 
 app = FastAPI()
 app.add_middleware(
@@ -64,8 +66,7 @@ async def top_films(user_id: int):
 
 @app.get('/watch_history')
 async def history(user_id):
-    user_history = {'content': {}}
+    user_history = {}
     for i, name in enumerate(ut.get_history_by_user(user_id)):
-        user_history['content'][f'{i}'] = name
-        print(name)
-    return user_history
+        user_history[f'{i}'] = name
+    return json.dump(user_history)
