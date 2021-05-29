@@ -69,4 +69,4 @@ async def history(user_id):
     user_history = {}
     for i, name in enumerate(ut.get_history_by_user(user_id)):
         user_history[f'{i}'] = name
-    return json.dump(user_history)
+    return json.dumps(user_history, indent=4, sort_keys=True)
