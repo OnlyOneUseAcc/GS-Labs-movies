@@ -64,8 +64,8 @@ async def top_films(user_id: int):
 
 @app.get('/watch_history')
 async def history(user_id):
-    history = {'content': {}}
+    user_history = {'content': {}}
     for i, name in enumerate(ut.get_history_by_user(user_id)):
-        history['content'][i] = name
+        user_history['content'][i] = name
 
-    return history
+    return user_history
