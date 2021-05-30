@@ -48,7 +48,16 @@ def pipeline(id, num_similar_users):
                 mean_dur.append(user_films[col].sum() * user_content_type.loc[id, genre])
                 top_films.append(col)
 
-    sorted_top_filmes = pd.DataFrame(data=[top_films, mean_dur]).transpose() \
+    sorted_top_films = pd.DataFrame(data=[top_films, mean_dur]).transpose() \
                             .sort_values(by=1, ascending=False)[0].values[:50]
 
-    return top_films
+    return sorted_top_films
+
+
+def is_exist(user_id):
+    if int(user_id) < 0:
+        return False
+    else:
+        user_content_type = pd.read_csv(
+            f'{DATA}{POSTPROCESSING}user_content_types.csv', index_col=0)
+        return int(user_id) in user_content_type.index

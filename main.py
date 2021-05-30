@@ -18,7 +18,7 @@ app.add_middleware(
 async def predict(user_id: int):
     result = {'content': {},
               'user_id': user_id}
-    film_ids = ut.pipeline(user_id, 500)
+    film_ids = ut.pipeline(user_id, 1000)
 
     content = pd.read_csv('data/postprocessing/content.csv', index_col='content_uid')
     content = content.loc[film_ids]
@@ -34,9 +34,10 @@ async def predict(user_id: int):
 
 @app.get('/exist_user')
 async def is_exist(user_id: int):
+
     return {
         'content': {
-            'exist': True
+            'exist': ut.is_exist(int(user_id))
         }}
 
 
