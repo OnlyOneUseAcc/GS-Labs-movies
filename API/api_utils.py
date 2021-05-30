@@ -24,7 +24,6 @@ def pipeline(id, num_similar_users):
     user_genres = pd.read_csv(f'{CONST_PATH}users_genres.csv', index_col=0)
     user_content_type = pd.read_csv(f'{CONST_PATH}user_content_types.csv', index_col=0)
     comb_df = pd.concat([user_content_type, user_genres], axis=1)
-    user_genres.close()
 
     similarity = comb_df.drop(id, axis=0).apply(lambda row: cosine(comb_df.loc[id], row), axis=1)
     similar_users = similarity.sort_values().head(num_similar_users).index
