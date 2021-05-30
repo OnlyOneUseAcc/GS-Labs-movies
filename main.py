@@ -18,7 +18,7 @@ app.add_middleware(
 async def predict(user_id: int):
     result = {'content': {},
               'user_id': user_id}
-    film_ids = ut.pipeline(user_id, 2000)
+    film_ids = ut.pipeline(user_id, 500)
 
     content = pd.read_csv('data/postprocessing/content.csv', index_col='content_uid')
     content = content.loc[film_ids]
