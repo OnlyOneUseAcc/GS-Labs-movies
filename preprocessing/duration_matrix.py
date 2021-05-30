@@ -2,7 +2,7 @@ from scipy import sparse
 import numpy as np
 import pandas as pd
 
-CONST_PATH = 'data/postprocessing/'
+CONST_PATH = '../data/postprocessing/'
 CONTENT_FILE = 'content.csv'
 HISTORY_FILE = 'watch_history.csv'
 NAME_MATRIX = 'sparse_matrix.npz'
