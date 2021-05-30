@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import API.api_utils as ut
 from asgiref.sync import sync_to_async
-
+import pandas as pd
 
 app = FastAPI()
 app.add_middleware(
@@ -16,51 +16,35 @@ app.add_middleware(
 
 @app.get("/user_recommendation")
 async def predict(user_id: int):
-    return {
-        'content': {'films': {1: {'name': 'film1',
-                                  'genre': 'genre1, genre2'},
-                              2: {'name': 'film2',
-                                  'genre': 'genre1, genre2'},
-                              3: {'name': 'film3',
-                                  'genre': 'genre1, genre2'}},
-                    'serials': {1: {'name': 'serial1',
-                                    'genre': 'genre1, genre2'},
-                                2: {'name': 'serial2',
-                                    'genre': 'genre1, genre2'},
-                                3: {'name': 'serial3',
-                                    'genre': 'genre1, genre2'}}
-                    },
-        'user_id': user_id
-    }
+    result = {'content': {},
+              'user_id': user_id}
+    film_ids = ut.pipeline(user_id, 1000)
+
+    content = pd.read_csv('data/postprocessing/content.csv', index_col='content_uid')
+    content = content.loc[film_ids]
+    for index, row in content.iterrows():
+        result['content'][index] = {}
+        result['content'][index]['name'] = row['name']
+        result['content'][index]['genre'] = row['genres']
+        if type(result['content'][index]['genre']) == float:
+            result['content'][index]['genre'] = '-'
+
+    return result
 
 
 @app.get('/exist_user')
 async def is_exist(user_id: int):
+
     return {
         'content': {
-            'exist': True
+            'exist': ut.is_exist(int(user_id))
         }}
 
 
 @app.get('/top_films_per_genre')
 async def top_films(user_id: int):
     return {
-        'content': {
-            'genre1': {
-                1: {'name': 'serial1',
-                    'type': 'serial'
-                    },
-                2: {'name': 'film1',
-                    'type': 'film'}
-            },
-            'genre2': {
-                1: {'name': 'serial2',
-                    'type': 'serial'
-                    },
-                2: {'name': 'film2',
-                    'type': 'film'}
-            }
-        }
+        'content': ut.top_genres_per_user(user_id)
     }
 
 
