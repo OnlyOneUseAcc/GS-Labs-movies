@@ -22,7 +22,6 @@ async def predict(user_id: int):
 
     content = pd.read_csv('data/postprocessing/content.csv', index_col='content_uid')
     content = content.loc[film_ids]
-    print(film_ids)
     for index, row in content.iterrows():
         result['content'][index] = {}
         result['content'][index]['name'] = row['name']
