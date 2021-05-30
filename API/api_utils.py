@@ -61,3 +61,35 @@ def is_exist(user_id):
         user_content_type = pd.read_csv(
             f'{DATA}{POSTPROCESSING}user_content_types.csv', index_col=0)
         return int(user_id) in user_content_type.index
+
+
+def top_genres_per_user(user_id):
+    if is_exist(user_id):
+        user_genres = pd.read_csv(f'{DATA}{POSTPROCESSING}users_genres.csv', index_col='user_uid')
+        sort_val = user_genres.loc[user_id].sort_values(kind='mergesort', ascending=False)
+        sort_val[sort_val > 0][:5].index.to_list()
+        top_genres = sort_val[sort_val > 0][:5].index.to_list()
+
+        film_genres = pd.read_csv('data/postprocessing/film_genres.csv', index_col='content_uid')[top_genres]
+        history_films = pd.read_csv('data/postprocessing/watch_history.csv', index_col=0)['content_uid']
+
+        history_films = pd.merge(history_films, film_genres, on='content_uid', how='inner').groupby(by='content_uid').sum()
+
+        result = {}
+        for item in top_genres:
+            result[item] = history_films[item].sort_values(
+                kind='mergesort', ascending=False).head().index.to_list()
+
+        content = pd.read_csv('data/postprocessing/content.csv', index_col='content_uid')[['name', 'type']]
+        genres = {}
+        for item in top_genres:
+            genres[item] = {}
+            for index, row in content.loc[result[item]].iterrows():
+                genres[item][index] = {}
+                genres[item][index]['name'] = row['name']
+                if row['type'] == 'movie':
+                    genres[item][index]['type'] = row['type']
+                else:
+                    genres[item][index]['type'] = 'serial'
+
+        return genres

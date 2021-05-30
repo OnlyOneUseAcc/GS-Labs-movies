@@ -44,22 +44,7 @@ async def is_exist(user_id: int):
 @app.get('/top_films_per_genre')
 async def top_films(user_id: int):
     return {
-        'content': {
-            'genre1': {
-                1: {'name': 'serial1',
-                    'type': 'serial'
-                    },
-                2: {'name': 'film1',
-                    'type': 'film'}
-            },
-            'genre2': {
-                1: {'name': 'serial2',
-                    'type': 'serial'
-                    },
-                2: {'name': 'film2',
-                    'type': 'film'}
-            }
-        }
+        'content': ut.top_genres_per_user(user_id)
     }
 
 
